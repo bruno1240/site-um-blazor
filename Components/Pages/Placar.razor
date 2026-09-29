@@ -1,0 +1,36 @@
+@page "/placar"
+@rendermode InteractiveServer
+
+<PageTitle>Placar</PageTitle>
+
+<h1>Placar Interativo</h1>
+
+<p class="display-1 fw-bold">@pontos</p>
+
+<div class="d-flex gap-2 flex-wrap">
+    <button class="btn btn-success" @onclick="SomarPonto">Somar 1 Ponto</button>
+    <button class="btn btn-warning" @onclick="SubtrairPonto" disabled="@(pontos == 0)">Subtrair 1 Ponto</button>
+    <button class="btn btn-danger" @onclick="ZerarPlacar">Zerar Placar</button>
+</div>
+
+@code {
+    private int pontos = 0;
+
+    private void SomarPonto()
+    {
+        pontos++;
+    }
+
+    private void SubtrairPonto()
+    {
+        // Regra de negócio: o placar nunca pode ficar negativo.
+        // A validação fica aqui (e não só no "disabled" do botão) porque o
+        // estado da UI não é garantia — a regra precisa valer no próprio método.
+        pontos = Math.Max(0, pontos - 1);
+    }
+
+    private void ZerarPlacar()
+    {
+        pontos = 0;
+    }
+}
